@@ -1,50 +1,29 @@
-#class Parent:
-#    age = 45
+import requests
+from bs4 import BeautifulSoup
+import lxml
 
-#class Child:
-#    age = 15
+url = "https://rozetka.com.ua/tablets/c130309/"
+user = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+headers = {"User-agent": user}
 
-#class Grandparent:
-#    height = 170
-#   satiety = 100
-#   age = 60
+session = requests.Session()
 
-#class Parent(Grandparent):
- #   height = 90
-  #  def __init__(self):
-   #     print(self.height)
-    #    print(self.satiety)
-     #   print(self.age)
+response = session.get(url, headers = headers)
+#print(response.status_code)
 
-#nick = Child()
-#print(nick.age)
+if response.status_code == 200:
+    all_products = soup.find_all('li', class_="ng-star-inserted")
+    soup = BeautifulSoup(response.text, "lxml")
+    all_products = soup.find("li", class_ ="catalog-grid__cell catalog-grid__cell_type_slim ng-star-inserted"):
+    for i in all_products:
+    try:
+        temp = i.find('div', class_= 'goods-tile__price--old price--gray ng-star-inserted')
+        price =i.find('span', class_="good-tile__price-value")
+        print(price.text)
+        print(temp)
+    except ValueError:
 
-class Hello_world:
-    hello = "Hello"
-    _hello = "_Hello"
-    __hello = "__Hello"
+        print('Знижки немає')
 
-    def __init__(self):
-        self.world == "world"
-        self._world = "_world"
-        self.__world = "__world"
-    def printer(self):
-        print(self.hello)
-        print(self._hello)
-        print(self.__hello)
-        print(self.world)
-        print(self._world)
-        print(self.__world)
+print(all_products.text)
 
-class Hi(Hello_world):
-    def hi_print(self):
-        print(self.hello)
-        print(self.world)
-        print(self._hello)
-        print(self._world)
-        print(self.__hello)
-        print(self.__world)
-hello = Hello_world()
-hello.printer()
-hi = Hi()
-hi.hi_print()
